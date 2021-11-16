@@ -86,3 +86,7 @@ button:active {
         font-size: 30px;
     }
 }
+
+#date {
+    -webkit-appearance: none;
+}
