@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap');
+html {
+    background-image: url("./assets/bg_clouds.jpg");
+}
+
+body {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    display: flex;
+}
+
+h1, p {
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+}
+
+h1 {
+    width: 50%;
+    margin-top: 0;
+    color: white;
+    text-shadow: 2px 2px #293233;
+}
+
+footer {
+    text-align: right;
+}
+
+a {
+    margin-right: 30px;
+    font-size: large;
+    color: white;
+    text-decoration: none;
+}
+
+p {
+    visibility: hidden;
+    font-size: x-large;
+    text-shadow: #293233;
+}
+
+input {
+    border: 2px solid #293233;
+    border-radius: 5px;
+    color: black;
+    font-size: x-large;
+    font-weight: bold;
+    background-color: transparent;
+    padding: 5px 0;
+}
+
+button {
+    margin-left: 10px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid #293233;
+    box-shadow: 0 0 5px #596572;
+}
+
+button:active {
+    transform: translateY(2px);
+    border: none;
+}
+
+.md-36 {
+    font-size: 36px;
+}

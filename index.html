@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horóscopo - Sessão da Tarde</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header></header>
+    <div class="container">
+        <img src="./assets/logo_sessao_tarde.png" alt="logo da sessão da tarde" width="400px">
+        <h1>O que estava passando na Sessão da Tarde quando você nasceu?</h1>
+        <form>
+            <input type="date" id="date" />
+            <button type="submit" id="submit" class="material-icons md-36">search</button>
+        </form>
+        <div>
+            <p id="movie">PLACEHOLDER FILME</p>
+        </div>
+    </div>
+    <footer>
+        <a href="./creditos.html">Créditos</a>
+    </footer>
+    <script>
+        document.getElementById("submit").addEventListener('click', (e) => {
+            e.preventDefault();
+            const date = new Date(document.getElementById("date").value + "GMT-03:00")
+
+            const month = date.toLocaleString('en-US', { month: 'long', }).toLowerCase();
+            const year = date.toLocaleString('en-US', { year: "numeric" });
+            const day = date.toLocaleString('en-US', { day: "2-digit" });
+
+            fetch(`http://localhost:3333/${year}/${month}/${day}`, { method: 'GET' })
+                .then(async data => {
+                    const display = document.getElementById("movie");
+                    const { movie } = await data.json();
+                    if (movie) {
+                        display.innerHTML = `Filme: "${movie}"`;
+                        display.style.visibility = 'visible';
+                    }
+                    else {
+                        display.innerHTML = "Não temos informações para essa data 😢";
+                        display.style.visibility = 'visible';
+                    }
+                })
+        })
+    </script>
+</body>
+
+</html>
