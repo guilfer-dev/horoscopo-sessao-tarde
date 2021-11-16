@@ -14,7 +14,7 @@
     <header></header>
     <div class="container">
         <img src="./assets/logo_sessao_tarde.png" alt="logo da sessão da tarde" width="400px">
-        <h1>O que estava passando na Sessão da Tarde quando você nasceu?</h1>
+        <h1>O que estava passando quando você nasceu?</h1>
         <form>
             <input type="date" id="date" />
             <button type="submit" id="submit" class="material-icons md-36">search</button>
@@ -41,7 +41,7 @@
             const year = date.toLocaleString('en-US', { year: "numeric" });
             const day = date.toLocaleString('en-US', { day: "2-digit" });
 
-            fetch(`http://localhost:3333/${year}/${month}/${day}`, { method: 'GET' })
+            fetch(`https://horo-sessao-tarde.herokuapp.com/${year}/${month}/${day}`, { method: 'GET' })
                 .then(async data => {
                     const display = document.getElementById("movie");
                     const { movie } = await data.json();

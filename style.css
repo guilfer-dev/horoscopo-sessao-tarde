@@ -76,3 +76,13 @@ button:active {
 .md-36 {
     font-size: 36px;
 }
+
+@media screen and (max-width: 500px) {
+    img {
+        width: 70%;
+    }
+    h1 {
+        width: 90%;
+        font-size: 30px;
+    }
+}
