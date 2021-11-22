@@ -1,7 +1,7 @@
 # Horóscopo da Sessão da Tarde
 
 Esse é um projeto bem BR!
-Foi bastante divertido de fazer e é um dos projetos que as pessoas mais gostaram.
+Foi bastante divertido de fazer e é um dos  meus projetos que as pessoas mais gostaram.
 
 ## Foram realizadas as seguintes etapas:
 
@@ -21,9 +21,7 @@ Foi bastante divertido de fazer e é um dos projetos que as pessoas mais gostara
 
 ### Notas:
 
-- É importante notar que eu utilizei esse projeto para meu primeiro contato com o Google AdSense, caso queira fazer o fork ou contribuir com o projeto (e caso o AdSense seja aprovado também haha), tenha ciencia disso.
-- O projeto não tem intenção de ser lucrativo, a ideia foi servir de laborátorio, se eventualmente os custos da hospedagem forem cobertos, ficarei feliz.
-- Se algo deste projeto ferir copright ou qualquer coisa neste sentido ou tiver algo de errado com a utilização do AdSense, por gentileza, deixe-me saber que corrigirei imediatamente.
+- Se algo deste projeto ferir copright ou qualquer coisa neste sentido, por gentileza, deixe-me saber que corrigirei imediatamente.
 
 ## Agradecimentos
 
