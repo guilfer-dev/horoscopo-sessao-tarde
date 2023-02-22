@@ -12,41 +12,94 @@
 
 <body>
     <header></header>
-    <div class="container">
-        <img src="./assets/logo_sessao_tarde.png" alt="logo da sessão da tarde" width="400px">
-        <h1>O que estava passando quando você nasceu?</h1>
-        <form>
-            <input type="date" id="date" />
-            <button type="submit" id="submit" class="material-icons md-36">search</button>
-        </form>
-        <div>
-            <p id="movie">PLACEHOLDER FILME</p>
-        </div>
+    <main>
+        <div class="container">
+            <img src="./assets/logo_sessao_tarde.png" alt="logo da sessão da tarde" width="400px">
+            <h1>O que estava passando quando você nasceu?</h1>
+            <form id="horo-form">
+                <input type="date" name="date" />
+                <button type="submit" id="search-button" class="material-icons md-36">search</button>
+            </form>
+            <div class="movie-data">
+                <p id="feedback-message"></p>
+                <div>
+                    <img src="" alt="" id="movie-poster" width="400">
+                </div>
+            </div>
+    </main>
     </div>
     <footer> <a href="./creditos.html">Créditos</a></footer>
+    <script src="./assets/js/moment.min.js"></script>
     <script>
-        document.getElementById("submit").addEventListener('click', (e) => {
+        const searchButton = document.getElementById("search-button");
+        const feedback = document.getElementById("feedback-message");
+        const moviePoster = document.getElementById("movie-poster");
+
+        document.getElementById("horo-form").addEventListener('submit', async (e) => {
             e.preventDefault();
-            const date = new Date(document.getElementById("date").value + "GMT-03:00")
+            setLoading(true);
+            const date = e.target.date.valueAsDate;
+            const [year, month, day, dayOfWeek] = moment.utc(date).format('YYYY-MMMM-DD-dddd').split('-');
 
-            const month = date.toLocaleString('en-US', { month: 'long', }).toLowerCase();
-            const year = date.toLocaleString('en-US', { year: "numeric" });
-            const day = date.toLocaleString('en-US', { day: "2-digit" });
+            if (dayOfWeek === 'Sunday' || dayOfWeek === 'Saturday') {
+                feedback.innerText = "Infelizmente não passa sessão da tarde nos finais de semana 😢";
+                feedback.style.visibility = 'visible';
+                setLoading(false);
+                return;
+            }
 
-            fetch(`https://horo-sessao-tarde.herokuapp.com/${year}/${month}/${day}`, { method: 'GET' })
-                .then(async data => {
-                    const display = document.getElementById("movie");
-                    const { movie } = await data.json();
-                    if (movie) {
-                        display.innerHTML = `Filme: "${movie}"`;
-                        display.style.visibility = 'visible';
+            try {
+                const { movie } = await (await fetch(`https://horo-sessao-tarde.herokuapp.com/${year}/${month.toLowerCase()}/${day}`, { method: 'GET' })).json();
+                if (!movie) {
+                    feedback.innerText = `Não temos informações para essa data 😢 \n
+                Possíveis motivos: \n
+                - Feriado ou evento importante na data informada 🥂\n
+                - O banco de dados não possui os dados para esta data 🤷‍♂️\n
+                - Ainda não existia sessão da tarde na data informada 🧓`;
+                    feedback.style.visibility = 'visible';
+                    setLoading(false);
+                    return
+                }
+
+                const data = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=864d3f35ddc39aba4350f1a3714fe022&query=${movie}`, { method: 'GET' })
+                const { results } = await data.json();
+
+                let index = 0;
+                for (; index < results.length; index++) {
+                    if (moment(date).diff(moment(results[index].release_date), 'years') > 1) {
+                        break;
                     }
-                    else {
-                        display.innerHTML = "Não temos informações para essa data 😢";
-                        display.style.visibility = 'visible';
-                    }
-                })
-        })
+                }
+
+                const posterData = await fetch(`https://api.themoviedb.org/3/movie/${results[index].id}/images?api_key=864d3f35ddc39aba4350f1a3714fe022&language=pt`, { method: 'GET' })
+                const { posters } = await posterData.json();
+                if (!posters.length) {
+                    feedback.innerText = `Filme: ${movie.replace(':', ' -')} \n
+                Não temos o poster ou há varios filmes com esse nome 😢`;
+                    feedback.style.visibility = 'visible';
+                    setLoading(false);
+                    return;
+                }
+                moviePoster.src = `https://image.tmdb.org/t/p/original${posters[0].file_path}`
+                setLoading(false);
+            } catch (error) {
+                feedback.innerText = `Ocorreu um erro inesperado 😢`;
+                feedback.style.visibility = 'visible';
+                setLoading(false);
+            }
+        });
+
+        function setLoading(state) {
+            if (state) {
+                searchButton.disabled = true;
+                searchButton.innerText = 'hourglass_full';
+                moviePoster.src = '';
+            }
+            else {
+                searchButton.disabled = false;
+                searchButton.innerText = 'search';
+            }
+        }
     </script>
 </body>
 
