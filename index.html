@@ -34,28 +34,27 @@
         const searchButton = document.getElementById("search-button");
         const feedback = document.getElementById("feedback-message");
         const moviePoster = document.getElementById("movie-poster");
-
         document.getElementById("horo-form").addEventListener('submit', async (e) => {
             e.preventDefault();
             setLoading(true);
-            const date = e.target.date.valueAsDate;
-            const [year, month, day, dayOfWeek] = moment.utc(date).format('YYYY-MMMM-DD-dddd').split('-');
+            const date = moment.utc(e.target.date.valueAsDate).format('YYYY-MMMM-DD')
 
             if (dayOfWeek === 'Sunday' || dayOfWeek === 'Saturday') {
-                feedback.innerText = "Infelizmente não passa sessão da tarde nos finais de semana 😢";
+                feedback.innerText = `Você nasceu em um ${dayOfWeek === 'Sunday' ? 'Domingo' : 'Sábado'} \n
+                Infelizmente não passa Sessão da Tarde nos finais de semana 😢`;
                 feedback.style.visibility = 'visible';
                 setLoading(false);
                 return;
             }
 
             try {
-                const { movie } = await (await fetch(`https://horo-sessao-tarde.herokuapp.com/${year}/${month.toLowerCase()}/${day}`, { method: 'GET' })).json();
+                const { movie } = await (await fetch(`https://horo-sessao-tarde.herokuapp.com/?date=${date}`, { method: 'GET' })).json();
                 if (!movie) {
                     feedback.innerText = `Não temos informações para essa data 😢 \n
                 Possíveis motivos: \n
                 - Feriado ou evento importante na data informada 🥂\n
                 - O banco de dados não possui os dados para esta data 🤷‍♂️\n
-                - Ainda não existia sessão da tarde na data informada 🧓`;
+                - Ainda não existia Sessão da Tarde na data informada 🧓`;
                     feedback.style.visibility = 'visible';
                     setLoading(false);
                     return
@@ -93,6 +92,8 @@
             if (state) {
                 searchButton.disabled = true;
                 searchButton.innerText = 'hourglass_full';
+                feedback.innerText = '';
+                feedback.style.visibility = 'hidden';
                 moviePoster.src = '';
             }
             else {
