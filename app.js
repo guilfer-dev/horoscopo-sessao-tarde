@@ -14,16 +14,18 @@ app.use(cors());
 app.get("/", async (req, res) => {
 
     const { date } = req.query;
+
     try {
-        const { title } = await MovieModel.findOne({ date: new Date(date) });
+        const { title } = await MovieModel.findOne({ date });
         res.status(200).json({ movie: title });
     }
     catch (err) {
+        console.log(err)
         res.status(404).json({ msg: "Movie information not available for the date." });
     }
 })
 
-mongoose.connect(`${process.env.MONGO_AUTH}/SessaoDaTarde`)
+mongoose.connect(`${process.env.MONGO_AUTH}/sessaoDaTarde`)
     .then(console.log("Database connection: Success"))
     .catch(err => console.error("Database connection: Error", err));
 
