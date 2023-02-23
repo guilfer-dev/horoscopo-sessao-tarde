@@ -1,6 +1,5 @@
 import fs from 'fs';
 import MovieModel from '../models/MovieModel.js';
-import moment from 'moment'
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
@@ -16,8 +15,7 @@ mongoose.connect(`${process.env.MONGO_AUTH}/sessaoDaTarde`)
             let json = JSON.parse(data);
             for (let obj of json) {
                 const { date, title } = obj;
-                console.log(date)
-                await MovieModel.create({
+                 await MovieModel.create({
                     date,
                     title
                 });
