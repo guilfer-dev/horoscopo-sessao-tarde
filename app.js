@@ -15,7 +15,7 @@ app.get("/", async (req, res) => {
 
     const { date } = req.query;
     try {
-        const { title } = await MovieModel.findOne({ date });
+        const { title } = await MovieModel.findOne({ date: new Date(date) });
         res.status(200).json({ movie: title });
     }
     catch (err) {
