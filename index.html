@@ -49,7 +49,8 @@
             }
 
             try {
-                const { movie } = await (await fetch(`https://horo-sessao-tarde.herokuapp.com/?date=${date}`, { method: 'GET' })).json();
+                // /
+                const { movie } = await (await fetch(`https://horo-sessao-tarde.herokuapp.com?date=${date}`, { method: 'GET' })).json();
                 if (!movie) {
                     feedback.innerText = `Não temos informações para essa data 😢 \n
                 Possíveis motivos: \n
@@ -70,6 +71,12 @@
                         break;
                     }
                 }
+                if (!results[index]?.id) {
+                    feedback.innerText = `${movie.replace(':', ' -')}`;
+                    feedback.style.visibility = 'visible';
+                    setLoading(false);
+                    return;
+                }
 
                 const posterData = await fetch(`https://api.themoviedb.org/3/movie/${results[index].id}/images?api_key=864d3f35ddc39aba4350f1a3714fe022&language=pt`, { method: 'GET' })
                 const { posters } = await posterData.json();
@@ -83,6 +90,7 @@
                 moviePoster.src = `https://image.tmdb.org/t/p/original${posters[0].file_path}`
                 setLoading(false);
             } catch (error) {
+                console.error(error);
                 feedback.innerText = `Ocorreu um erro inesperado 😢`;
                 feedback.style.visibility = 'visible';
                 setLoading(false);
