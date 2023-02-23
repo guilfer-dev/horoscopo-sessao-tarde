@@ -11,20 +11,19 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/:year/:month/:day", async (req, res) => {
+app.get("/", async (req, res) => {
 
-    const { year, month, day } = req.params;
+    const { date } = req.query;
     try {
-        const yearDB = await MovieModel.findOne({ year });
-        const movie = yearDB.months[month][day];
-        res.status(200).json({ movie });
+        const { title } = await MovieModel.findOne({ date });
+        res.status(200).json({ movie: title });
     }
     catch (err) {
         res.status(404).json({ msg: "Movie information not available for the date." });
     }
 })
 
-mongoose.connect(`${process.env.MONGO_AUTH}/sessaoDaTarde`)
+mongoose.connect(`${process.env.MONGO_AUTH}/SessaoDaTarde`)
     .then(console.log("Database connection: Success"))
     .catch(err => console.error("Database connection: Error", err));
 

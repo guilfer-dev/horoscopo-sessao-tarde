@@ -1,5 +1,6 @@
 import fs from 'fs';
 import MovieModel from '../models/MovieModel.js';
+import moment from 'moment'
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
@@ -10,13 +11,15 @@ mongoose.connect(`${process.env.MONGO_AUTH}/sessaoDaTarde`)
     .catch(err => console.error("Database connection: Error", err));
 
 (() => {
-    fs.readFile('./moviesSanitized.json', async (err, data) => {
+    fs.readFile('sanitized.json', async (err, data) => {
         if (!err) {
             let json = JSON.parse(data);
-            for (let year in json) {
+            for (let obj of json) {
+                const { date, title } = obj;
+                console.log(date)
                 await MovieModel.create({
-                    year,
-                    months: json[year]
+                    date,
+                    title
                 });
             }
         }
