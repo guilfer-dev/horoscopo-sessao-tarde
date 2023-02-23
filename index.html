@@ -37,7 +37,8 @@
         document.getElementById("horo-form").addEventListener('submit', async (e) => {
             e.preventDefault();
             setLoading(true);
-            const date = moment.utc(e.target.date.valueAsDate).format('YYYY-MMMM-DD')
+            const date = moment.utc(e.target.date.valueAsDate).format('YYYY-MM-DD')
+            const dayOfWeek = moment.utc(e.target.date.valueAsDate).format('dddd')
 
             if (dayOfWeek === 'Sunday' || dayOfWeek === 'Saturday') {
                 feedback.innerText = `Você nasceu em um ${dayOfWeek === 'Sunday' ? 'Domingo' : 'Sábado'} \n
