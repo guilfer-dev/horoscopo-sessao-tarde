@@ -6,7 +6,7 @@ caps.setPageLoadStrategy("normal");
 const driver = new Builder().withCapabilities(caps).forBrowser('chrome').build();
 
 
-var movies = fs.createWriteStream('movies.txt', { flags: 'a' });
+const movies = fs.createWriteStream('movies.txt', { flags: 'a' });
 (async function test() {
 
     await driver.get('https://tvglobo.fandom.com/pt-br/wiki/Lista_de_filmes_exibidos_na_Sess%C3%A3o_da_Tarde');
